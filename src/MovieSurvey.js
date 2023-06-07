@@ -4,6 +4,11 @@ import {getFirestore} from 'firebase/firestore';
 import {initializeApp} from "firebase/app";
 import LikertScaleQuestion from "./components/LikertScaleQuestion";
 import OpenQuestion from './components/OpenQuestion';
+import StepOne from './steps/StepOne';
+import StepTwo from './steps/StepTwo';
+import StepThree from './steps/StepThree';
+import Confirmation from './steps/Confirmation';
+import TheEnd from './steps/TheEnd';
 //import { getAnalytics } from "firebase/analytics";
 
 //var firebase = require('firebase');
@@ -38,21 +43,79 @@ const db = getFirestore(app);
 
 export default class MovieSurvey extends Component {
 
+    state = {step: 1,}
+
+    prevStep = () => {
+        const {step} = this.state;
+        this.setState({step: step-1});
+    }
+
+    nextStep = () => {
+        const {step} = this.state;
+        this.setState({step: step+1});
+    }
+
+    handleStepChange = input => e => {
+        this.setState({ [input]: e.target.value });
+    }
+
     render() {
-        return (
-            <div>
-                {/* w przyszlosci komponent "introduction - opis projektu itp" */}
-                <OpenQuestion question={"Jak masz na imie?"}></OpenQuestion>
-                <LikertScaleQuestion question={"Czy Zoolander to najlepszy film świata?"}></LikertScaleQuestion>
-                <LikertScaleQuestion question={"Pytanie 1"}></LikertScaleQuestion>
-                <LikertScaleQuestion question={"Pytanie 2"}></LikertScaleQuestion>
-                <LikertScaleQuestion question={"Pytanie 3"}></LikertScaleQuestion>
-                <LikertScaleQuestion question={"Pytanie 4"}></LikertScaleQuestion>
-                <LikertScaleQuestion question={"Pytanie 5"}></LikertScaleQuestion>
-                <LikertScaleQuestion question={"Pytanie 6"}></LikertScaleQuestion>
-                <LikertScaleQuestion question={"Pytanie 7"}></LikertScaleQuestion>
-                <LikertScaleQuestion question={"Pytanie 8"}></LikertScaleQuestion>
-            </div>
-        );
+        const {step} = this.state;
+
+        switch (step) {
+            case 1: 
+              return (
+                // w przyszlosci komponent "introduction - opis projektu itp" 
+                <StepOne 
+                    nextStep={this.nextStep}
+                    handleStepChange={this.handleStepChange}
+                />
+              )
+            case 2: 
+              return (
+                <StepTwo 
+                    prevStep={this.prevStep}
+                    nextStep={this.nextStep}
+                    handleStepChange={this.handleStepChange}
+                />
+              )
+            case 3: 
+              return (
+                <StepThree
+                    prevStep={this.prevStep}
+                    nextStep={this.nextStep}
+                    handleStepChange={this.handleStepChange}
+                />
+              )
+            case 4: 
+              return (
+                <Confirmation 
+                    prevStep={this.prevStep}
+                    nextStep={this.nextStep}
+                />
+              )
+            case 5:
+              return (
+                <TheEnd />
+              )
+            // never forget the default case, otherwise VS code would be mad!
+            default: 
+               // do nothing
+        }
+        // return (
+        //     <div>
+        //         {/* w przyszlosci komponent "introduction - opis projektu itp" */}
+        //         <OpenQuestion question={"Jak masz na imie?"}></OpenQuestion>
+        //         <LikertScaleQuestion question={"Czy Zoolander to najlepszy film świata?"}></LikertScaleQuestion>
+        //         <LikertScaleQuestion question={"Pytanie 1"}></LikertScaleQuestion>
+        //         <LikertScaleQuestion question={"Pytanie 2"}></LikertScaleQuestion>
+        //         <LikertScaleQuestion question={"Pytanie 3"}></LikertScaleQuestion>
+        //         <LikertScaleQuestion question={"Pytanie 4"}></LikertScaleQuestion>
+        //         <LikertScaleQuestion question={"Pytanie 5"}></LikertScaleQuestion>
+        //         <LikertScaleQuestion question={"Pytanie 6"}></LikertScaleQuestion>
+        //         <LikertScaleQuestion question={"Pytanie 7"}></LikertScaleQuestion>
+        //         <LikertScaleQuestion question={"Pytanie 8"}></LikertScaleQuestion>
+        //     </div>
+        // );
     }
 }
