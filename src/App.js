@@ -9,6 +9,14 @@ function App() {
     <div className="App">
       <OpenQuestion question={"Jak masz na imie?"}></OpenQuestion>
       <LikertScaleQuestion question={"Czy Zoolander to najlepszy film świata?"}></LikertScaleQuestion>
+      <LikertScaleQuestion question={"Pytanie 1"}></LikertScaleQuestion>
+      <LikertScaleQuestion question={"Pytanie 2"}></LikertScaleQuestion>
+      <LikertScaleQuestion question={"Pytanie 3"}></LikertScaleQuestion>
+      <LikertScaleQuestion question={"Pytanie 4"}></LikertScaleQuestion>
+      <LikertScaleQuestion question={"Pytanie 5"}></LikertScaleQuestion>
+      <LikertScaleQuestion question={"Pytanie 6"}></LikertScaleQuestion>
+      <LikertScaleQuestion question={"Pytanie 7"}></LikertScaleQuestion>
+      <LikertScaleQuestion question={"Pytanie 8"}></LikertScaleQuestion>
     </div>
   );
 }
