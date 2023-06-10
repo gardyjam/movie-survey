@@ -1,83 +1,98 @@
-import React, {Component} from "react";
-import LikertScaleQuestion from "./components/LikertScaleQuestion";
-import OpenQuestion from './components/OpenQuestion';
+import {useState} from "react";
 import StepOne from './steps/StepOne';
 import StepTwo from './steps/StepTwo';
 import StepThree from './steps/StepThree';
 import Confirmation from './steps/Confirmation';
 import TheEnd from './steps/TheEnd';
+// import {db} from './firebaseConfig';
+import {ref, set} from 'firebase/database';
+import { v4 as uuidv4 } from 'uuid';
+//import { collection, addDoc } from 'firebase/firestore';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import { collection, addDoc } from 'firebase/firestore';
 
 import firebaseConfig from './firebaseConfig';
-import {initializeApp} from "firebase/app";
-import {getFirestore} from 'firebase/firestore';
 
-const firebase = initializeApp(firebaseConfig);
-const database = getFirestore(firebase);
+const fa = initializeApp(firebaseConfig);
+const db = fa.firestore();
 
-export default class MovieSurvey extends Component {
+function MovieSurvey () {
 
-    state = {step: 1,}
+  const [step, setStep] = useState(1);
+  const [answers, setAnswers] = useState({});
 
-    prevStep = () => {
-        const {step} = this.state;
-        this.setState({step: step-1});
+  const prevStep = () => {
+    setStep(step-1);
+  }
+
+  const nextStep = () => {
+    setStep(step+1);
+  }
+
+  const handleResponseChange = (questionId, value) => {
+      setAnswers(prevAnswers => ({
+          ...prevAnswers,
+          [questionId]: value,
+      }));
+  };
+  
+  const handleSubmit = async () => { 
+    const answersCollection = collection(db, 'responses');
+
+    try {
+      await addDoc(answersCollection, { answers });
+      console.log('Dane zapisane w bazie danych Firestore');
+    } catch (error) {
+      console.error('Błąd podczas zapisu danych:', error);
     }
+      // var answersRef = db.database().ref("responses/");
 
-    nextStep = () => {
-        const {step} = this.state;
-        this.setState({step: step+1});
-    }
-
-    handleStepChange = input => e => {
-        this.setState({ [input]: e.target.value });
-    }
-
-    handleSubmit = (e) => {
-      
-    }
-
-    render() {
-        const {step} = this.state;
-        //const { ans1, ans2, ans3, ans4, ans5, ans6, ans7, ans8} = this.state;
-        //const values = {q1, q2, q3, q4, q5, q6, q7, q8};
+      // answersRef.set ({
+      //   response1: {
+      //     answers:answers
+      //   },
+      // })
+  };  
 
         switch (step) {
             case 1: 
               return (
                 // w przyszlosci komponent "introduction - opis projektu itp" 
                 <StepOne 
-                    nextStep={this.nextStep}
+                    nextStep={nextStep}
                 />
               )
             case 2: 
               return (
                 <StepTwo 
-                    prevStep={this.prevStep}
-                    nextStep={this.nextStep}
-                    handleStepChange={this.handleStepChange}
-                    //values = {values}
+                    prevStep={prevStep}
+                    nextStep={nextStep}
+                    handleResponseChange={handleResponseChange}
                 />
               )
             case 3: 
               return (
                 <StepThree
-                    prevStep={this.prevStep}
-                    nextStep={this.nextStep}
-                    handleStepChange={this.handleStepChange}
-                    //values = {values}
+                    prevStep={prevStep}
+                    nextStep={nextStep}
+                    handleResponseChange={handleResponseChange}
+
                 />
               )
             case 4: 
               return (
                 <Confirmation 
-                    prevStep={this.prevStep}
-                    nextStep={this.nextStep}
-                    //values = {values}
+                    prevStep={prevStep}
+                    nextStep={nextStep}
+                    handleResponseChange={handleResponseChange}
+                    handleSubmit={handleSubmit}
                 />
               )
             case 5:
               return (
-                <TheEnd />
+                <TheEnd 
+                />
               )
             // never forget the default case, otherwise VS code would be mad!
             default: 
@@ -98,5 +113,7 @@ export default class MovieSurvey extends Component {
         //         <LikertScaleQuestion question={"Pytanie 8"}></LikertScaleQuestion>
         //     </div>
         // );
-    }
+    
 }
+
+export default MovieSurvey;

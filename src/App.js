@@ -2,7 +2,6 @@
 import './App.css';
 import MovieSurvey from './MovieSurvey';
 
-
 function App() {
   return (
     <div className="App">
