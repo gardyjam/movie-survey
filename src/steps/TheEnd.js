@@ -1,8 +1,9 @@
-
+import './css/TheEnd.css'
 const TheEnd = ({}) => {
     return (
-        <div>
-            bla bla bla thank you
+        <div className="the-end">
+            <text className="ending">Twoja odpowiedź została przesłana.</text>
+            <text className="thanks"> Dziękuję! </text> 
             {/* moze jakas karta o projekcie pozniej? */}
         </div>
     );

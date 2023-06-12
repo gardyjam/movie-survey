@@ -21,7 +21,6 @@ const StepTwo = ({prevStep, nextStep, handleResponseChange}) => {
             <LikertScaleQuestion question={"Pytanie 2"} questionId="q2" onChange={value => handleResponseChange('q2', value)}/>
             <LikertScaleQuestion question={"Pytanie 3"} questionId="q3" onChange={value => handleResponseChange('q3', value)}/>
             <LikertScaleQuestion question={"Pytanie 4"} questionId="q4" onChange={value => handleResponseChange('q4', value)}/>       
-
             <button onClick={ Previous } className="previous-button">Poprzednie</button>
             <button onClick={ Continue } className="next-button">Następne</button>
         </div>

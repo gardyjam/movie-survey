@@ -4,18 +4,10 @@ import StepTwo from './steps/StepTwo';
 import StepThree from './steps/StepThree';
 import Confirmation from './steps/Confirmation';
 import TheEnd from './steps/TheEnd';
-// import {db} from './firebaseConfig';
+import {db} from './firebaseConfig';
 import {ref, set} from 'firebase/database';
 import { v4 as uuidv4 } from 'uuid';
-//import { collection, addDoc } from 'firebase/firestore';
-import firebase from 'firebase/compat/app';
-import 'firebase/compat/firestore';
 import { collection, addDoc } from 'firebase/firestore';
-
-import firebaseConfig from './firebaseConfig';
-
-const fa = initializeApp(firebaseConfig);
-const db = fa.firestore();
 
 function MovieSurvey () {
 
@@ -31,21 +23,20 @@ function MovieSurvey () {
   }
 
   const handleResponseChange = (questionId, value) => {
-      setAnswers(prevAnswers => ({
-          ...prevAnswers,
-          [questionId]: value,
-      }));
+      setAnswers(answers);
   };
   
   const handleSubmit = async () => { 
-    const answersCollection = collection(db, 'responses');
-
+    nextStep();
     try {
+      const answersCollection = collection(db, 'responses');
+      console.log(answers);
       await addDoc(answersCollection, { answers });
       console.log('Dane zapisane w bazie danych Firestore');
     } catch (error) {
       console.error('Błąd podczas zapisu danych:', error);
     }
+    
       // var answersRef = db.database().ref("responses/");
 
       // answersRef.set ({
@@ -84,7 +75,6 @@ function MovieSurvey () {
               return (
                 <Confirmation 
                     prevStep={prevStep}
-                    nextStep={nextStep}
                     handleResponseChange={handleResponseChange}
                     handleSubmit={handleSubmit}
                 />
