@@ -1,114 +1,3 @@
-// import {Component, useState} from "react";
-// import StepOne from './steps/StepOne';
-// import StepTwo from './steps/StepTwo';
-// import StepThree from './steps/StepThree';
-// import Confirmation from './steps/Confirmation';
-// import TheEnd from './steps/TheEnd';
-// import {db} from './firebaseConfig';
-// import {ref, set} from 'firebase/database';
-// import { v4 as uuidv4 } from 'uuid';
-// import { collection, addDoc } from 'firebase/firestore';
-
-// class MovieSurvey extends Component {
-
-//   // const [step, setStep] = useState(1);
-//   // const [answers, setAnswers] = useState({});
-
-//   prevStep = () => {
-//     setStep(step-1);
-//   }
-
-//   nextStep = () => {
-//     setStep(step+1);
-//   }
-
-//   handleResponseChange = (questionId, value) => {
-//       setAnswers(answers);
-//   };
-  
-//   handleSubmit(event) { 
-//     event.preventDefault();
-//     nextStep();
-//     try {
-//       const answersCollection = collection(db, 'responses');
-//       console.log(answers);
-//       await addDoc(answersCollection, { answers });
-//       console.log('Dane zapisane w bazie danych Firestore');
-//     } catch (error) {
-//       console.error('Błąd podczas zapisu danych:', error);
-//     }
-    
-//       // var answersRef = db.database().ref("responses/");
-
-//       // answersRef.set ({
-//       //   response1: {
-//       //     answers:answers
-//       //   },
-//       // })
-//   };  
-
-//         switch (step) {
-//             case 1: 
-//               return (
-//                 // w przyszlosci komponent "introduction - opis projektu itp" 
-//                 <StepOne 
-//                     nextStep={nextStep}
-//                 />
-//               )
-//             case 2: 
-//               return (
-//                 <StepTwo 
-//                     prevStep={prevStep}
-//                     nextStep={nextStep}
-//                     handleResponseChange={handleResponseChange}
-//                 />
-//               )
-//             case 3: 
-//               return (
-//                 <StepThree
-//                     prevStep={prevStep}
-//                     nextStep={nextStep}
-//                     handleResponseChange={handleResponseChange}
-
-//                 />
-//               )
-//             case 4: 
-//               return (
-//                 <Confirmation 
-//                     prevStep={prevStep}
-//                     handleResponseChange={handleResponseChange}
-//                     handleSubmit={handleSubmit}
-//                 />
-//               )
-//             case 5:
-//               return (
-//                 <TheEnd 
-//                 />
-//               )
-//             // never forget the default case, otherwise VS code would be mad!
-//             default: 
-//                // do nothing
-//         }
-//         // return (
-//         //     <div>
-//         //         {/* w przyszlosci komponent "introduction - opis projektu itp" */}
-//         //         <OpenQuestion question={"Jak masz na imie?"}></OpenQuestion>
-//         //         <LikertScaleQuestion question={"Czy Zoolander to najlepszy film świata?"}></LikertScaleQuestion>
-//         //         <LikertScaleQuestion question={"Pytanie 1"}></LikertScaleQuestion>
-//         //         <LikertScaleQuestion question={"Pytanie 2"}></LikertScaleQuestion>
-//         //         <LikertScaleQuestion question={"Pytanie 3"}></LikertScaleQuestion>
-//         //         <LikertScaleQuestion question={"Pytanie 4"}></LikertScaleQuestion>
-//         //         <LikertScaleQuestion question={"Pytanie 5"}></LikertScaleQuestion>
-//         //         <LikertScaleQuestion question={"Pytanie 6"}></LikertScaleQuestion>
-//         //         <LikertScaleQuestion question={"Pytanie 7"}></LikertScaleQuestion>
-//         //         <LikertScaleQuestion question={"Pytanie 8"}></LikertScaleQuestion>
-//         //     </div>
-//         // );
-    
-// }
-
-// export default MovieSurvey;
-
 import React, { Component } from 'react';
 import {db} from './firebaseConfig';
 import { v4 as uuid } from 'uuid';
@@ -123,13 +12,6 @@ import './MovieSurvey.css'
 // const uuid = uuidv4();
 
 class MovieSurvey extends Component {
-
-  // startSurvey(event) {
-  //   event.preventDefault();
-  //   this.setState({page: 2}, function(){
-  //     console.log(this.state);
-  //   })
-  // }
 
   answerSelected(event){
     let answers = this.state.answers
@@ -250,21 +132,8 @@ class MovieSurvey extends Component {
     let genre;
     let ending;
 
-    // if (this.state.page === 1) {
-    //   welcome = <div>
-    //     <form onSubmit={this.startSurvey}>
-    //       <h2>Ankieta</h2>
-    //       <h3>W jakim stopniu poniższe stwierdzenia opisują Ciebie?</h3>
-    //       <input type="submit" value="Rozpocznik ankietę" className="startButton"/>
-    //     </form>
-    //   </div>;
-    // } else 
     if(this.state.submitted === false){
       welcome = <div className='opening'>
-           {/* <form onSubmit={this.setState({page: 3})}> */}
-            {/* <h1 className='title'>
-             <span>W</span><span>h</span><span>e</span><span>n</span> <span>W</span><span>e</span> <span>T</span><span>a</span><span>l</span><span>k</span>
-            </h1> */}
             <div className='caption'>
               <h4 className='caption1'>
                 <span>Jak </span><span>myślisz, </span><span>da </span><span>się </span><span>przewidzieć </span><span>ulubiony </span><span>gatunek </span><span>filmu </span><span>na </span><span>podstawie </span><span>testu </span><span>psychologicznego? </span> 
@@ -278,8 +147,6 @@ class MovieSurvey extends Component {
             </div>
             <canvas id="noise" class="noise"></canvas>
             <div class="vignette"></div>
-             {/* <input type="submit" value="Rozpocznik ankietę" className="startButton"/> */}
-           {/* </form> */}
         </div>;
         questions = <div>
           <h3 className='start'>
